@@ -3,3 +3,4 @@
 .eslintcache
 coverage/
 .nyc_output
+/public/
