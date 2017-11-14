@@ -6,11 +6,14 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const VENDOR_LIBS = [
   "react",
   "react-dom",
-  "react-router",
   "react-redux",
   "redux",
-  "redux-thunk",
+  "react-hot-loader/patch",
+  "webpack-dev-server/client?http://localhost:8080",
+  "webpack/hot/only-dev-server",
 ];
+
+
 
 module.exports = {
   context: `${__dirname}/src`,
@@ -22,14 +25,27 @@ module.exports = {
 
   output: {
     path: `${__dirname}/public`,
-    filename: "[name].[chunkhash].js"
+    filename: "[name].[chunkhash].js",
+    // publicPath: "/public/"
   },
 
-  devtool: "inline-source-map",
+  devtool: "cheap-eval-source-map",
 
   devServer: {
-    contentBase: `${__dirname}/src/`,
-    publicPath: "/"
+    hot: true,
+    publicPath: "/public/",
+    // contentBase: "/public/",
+    historyApiFallback: true
+  },
+
+  resolve: {
+    extensions: [".js", ".jsx", ".json"]
+  },
+
+  stats: {
+    colors: true,
+    reasons: true,
+    chunks: true
   },
 
   module: {
