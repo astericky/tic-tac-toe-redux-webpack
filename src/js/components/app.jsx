@@ -1,7 +1,7 @@
 import "antd/dist/antd.css";
 
 import React from 'react';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import Button from 'antd/lib/button';
 import GameBoard from './GameBoard';
 import { resetGame } from '../actions';
@@ -14,7 +14,7 @@ const app = ({
   handleResetButtonClicked,
   handleBoardButtonClicked
 }) => {
-  const resetButtonLabel = isWinner ? `${lastPlay} WINS!` : "reset...";
+  const resetButtonLabel = isWinner ? `${lastPlay} WINS!` : 'reset...';
   return (
     <div className="app">
       <Button type="primary" onClick={ handleResetButtonClicked }>
