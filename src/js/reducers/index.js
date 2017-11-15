@@ -1,54 +1,36 @@
-import { combineReducers } from 'redux'
 import { RESET_GAME, GAME_BOARD_BUTTON_CLICKED } from '../constants/actionTypes'
 import checkTicTacToe from '../utils/checkTicTacToe';
 
-const defaultState = [
-    ['', '', ''],
-    ['', '', ''],
-    ['', '', ''],
-];
+const initialState = () => ({
+  board: [["", "", ""], ["", "", ""], ["", "", ""]],
+  lastPlay: "O",
+  isWinner: false
+});
 
-function board(state = defaultState, action) {
-    let newState;
+function updateBoard(state, position) {
+    const { lastPlay } = state;
+    const { xPos, yPos } = position;
+    const currentPlay = lastPlay === "O" ? "X" : "O";
+    const newBoard = state.board.map(row => row.map(column => column));
+    newBoard[yPos][xPos] = currentPlay;
+    return newBoard;
+}
+
+function board(state = initialState(), action) {
     switch (action.type) {
         case GAME_BOARD_BUTTON_CLICKED:
-            newState = [ ...state ];
-            // newState[yPos][xPos] = lastPlay;
-            return newState;
+            let { lastPlay } = state;
+            let newBoard = updateBoard(state, action.position);
+            return {
+                board: newBoard,
+                lastPlay: lastPlay === "O" ? "X" : "O",
+                isWinner: checkTicTacToe(newBoard)
+            };
         case RESET_GAME:
-            newState = [ ...defaultState ];
-            return newState;
-        default: 
+            return initialState();
+        default:
             return state;
     }
 }
 
-function lastPlay(state = 'O', action) {
-    const { type, lastPlay } = action;
-    switch (type) {
-        case GAME_BOARD_BUTTON_CLICKED:
-            return lastPlay === 'O' ? 'X' : 'O';
-        case RESET_GAME:
-            return 'O'
-        default:
-            return state;
-    } 
-}
-
-function isWinner(state = false, action) {
-    switch (action.type) {
-        case GAME_BOARD_BUTTON_CLICKED:
-            return state;
-        case RESET_GAME:
-            return false;
-        default:
-            return state;
-    } 
-}
-
-
-export default combineReducers({
-    board,
-    lastPlay,
-    isWinner
-})
+export default board;

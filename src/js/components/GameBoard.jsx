@@ -1,37 +1,34 @@
 import React from "react";
 import { connect } from "react-redux";
-import GameBoardButton from "./GameBoardButton";
+import Button from "antd/lib/button";
 import { updateGame } from "../actions";
 
 import "../../css/GameBoard.css";
 
-const GameBoard = ({ board, lastPlay, hasWinner, handleBoardButtonClicked }) => {
+const GameBoard = ({ board, isWinner, handleBoardButtonClicked }) => {
   let key = 0;
   let buttons = board.map((row, rowIndex) =>
     row.map((item, itemIndex) => (
-      <GameBoardButton
+      <Button
+        className="game-board-button"
         key={key++}
-        xPos={itemIndex}
-        yPos={rowIndex}
-        label={item}
         type={item ? "default" : "primary"}
-        hasWinner={hasWinner}
-        handleButtonClicked={() => handleBoardButtonClicked(itemIndex, rowIndex)}
-      />
+        disabled={item || isWinner}
+        onClick={() => handleBoardButtonClicked(itemIndex, rowIndex)}
+      >{item || '\0'}</Button>
     ))
   );
   return <div className="game-board">{buttons}</div>;
 };
 
-const mapStateToProps = ({ board, lastPlay, hasWinner }) => ({
+const mapStateToProps = ({ board, isWinner }) => ({
   board,
-  lastPlay,
-  hasWinner
+  isWinner
 });
 
 const mapDistachToProps = dispatch => ({
   handleBoardButtonClicked: (xPos, yPos) => {
-    dispatch(updateGame({xPos, yPos}));
+    dispatch(updateGame(xPos, yPos));
   }
 });
 

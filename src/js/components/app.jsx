@@ -11,8 +11,7 @@ import '../../css/App.css';
 const app = ({
   lastPlay,
   isWinner,
-  handleResetButtonClicked,
-  handleBoardButtonClicked
+  handleResetButtonClicked
 }) => {
   const resetButtonLabel = isWinner ? `${lastPlay} WINS!` : 'reset...';
   return (
