@@ -3,30 +3,25 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-const VENDOR_LIBS = [
-  "react",
-  "react-dom",
-  "react-redux",
-  "redux",
-  "react-hot-loader/patch",
-  "webpack-dev-server/client?http://localhost:8080",
-  "webpack/hot/only-dev-server",
-];
-
-
+const VENDOR_LIBS = ["react", "react-dom", "react-redux", "redux"];
 
 module.exports = {
   context: `${__dirname}/src`,
 
   entry: {
-    bundle: "./js/index.jsx",
+    bundle: [
+      "react-hot-loader/patch",
+      "webpack-dev-server/client?http://localhost:8080",
+      "webpack/hot/only-dev-server",
+      "./js/index.jsx"
+    ],
     vendor: VENDOR_LIBS
   },
 
   output: {
     path: `${__dirname}/public`,
     filename: "[name].[chunkhash].js",
-    // publicPath: "/public/"
+    publicPath: "/public/"
   },
 
   devtool: "cheap-eval-source-map",
@@ -34,7 +29,7 @@ module.exports = {
   devServer: {
     hot: true,
     publicPath: "/public/",
-    // contentBase: "/public/",
+    contentBase: `${__dirname}/public/`,
     historyApiFallback: true
   },
 

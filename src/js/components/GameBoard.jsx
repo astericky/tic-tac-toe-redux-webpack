@@ -24,10 +24,10 @@ const GameBoard = ({ board, isWinner }) => {
   return <div className="game-board">{buttons}</div>;
 };
 
-GameBoard.propTypes = {
-  board: PropTypes.isRequired,
-  isWinner: PropTypes.bool.isRequired
-};
+// GameBoard.propTypes = {
+//   board: PropTypes.isRequired,
+//   isWinner: PropTypes.bool.isRequired
+// };
 
 const mapStateToProps = ({ board, isWinner }) => ({
   board,
