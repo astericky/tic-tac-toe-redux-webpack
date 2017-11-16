@@ -6,7 +6,7 @@ import { updateGame } from '../actions'
 
 import '../../css/GameBoard.css'
 
-const GameBoard = ({ board, isWinner }) => {
+const GameBoard = ({ board, isWinner, handleButtonClick }) => {
   let key = 0
   const buttons = board.map((row, rowIndex) =>
     row.map((item, itemIndex) => (
@@ -16,9 +16,7 @@ const GameBoard = ({ board, isWinner }) => {
         type={item ? 'default' : 'primary'}
         disabled={item || isWinner}
         onClick={() => {
-          console.log('Button Clicked')
-          updateGame(itemIndex, rowIndex)
-          console.log('Game Updated')
+          handleButtonClick(itemIndex, rowIndex)
         }}
       >
         {item || '\0'}
@@ -38,6 +36,12 @@ const mapStateToProps = ({ board, isWinner }) => ({
   isWinner,
 })
 
-const mapDistachToProps = { updateGame }
+// const mapDistachToProps = {
+//   handleButtonClick: dispatch => distach(updateGame),
+// }
+
+const mapDistachToProps = dispatch => ({
+  handleButtonClick: (xPos, yPos) => dispatch(updateGame(xPos, yPos)),
+})
 
 export default connect(mapStateToProps, mapDistachToProps)(GameBoard)
