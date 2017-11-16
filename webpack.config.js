@@ -4,32 +4,33 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const VENDOR_LIBS = ['react', 'react-dom', 'react-redux', 'redux']
+const BUNDLE = [
+  'react-hot-loader/patch',
+  'webpack-dev-server/client?http://localhost:8080',
+  'webpack/hot/only-dev-server',
+  './js/index.jsx',
+]
 
 module.exports = {
   context: `${__dirname}/src`,
 
   entry: {
-    bundle: [
-      'react-hot-loader/patch',
-      'webpack-dev-server/client?http://localhost:8080',
-      'webpack/hot/only-dev-server',
-      './js/index.jsx',
-    ],
+    bundle: BUNDLE,
     vendor: VENDOR_LIBS,
   },
 
   output: {
-    path: `${__dirname}/public`,
-    filename: '[name].[chunkhash].js',
-    publicPath: '/public/',
+    path: `${__dirname}/public/`,
+    filename: '[name].[hash].js',
+    publicPath: '/',
   },
 
   devtool: 'cheap-eval-source-map',
 
   devServer: {
     hot: true,
-    publicPath: '/public/',
-    contentBase: `${__dirname}/public/`,
+    publicPath: '/',
+    contentBase: '/public',
     historyApiFallback: true,
   },
 
@@ -58,10 +59,10 @@ module.exports = {
             {
               loader: 'css-loader',
               options: {
-                modules: true,
+                // modules: true,
                 importLoaders: 1,
                 sourceMap: true,
-                localIdentName: '[path]--[name]-[local]--[hash:base64:5]',
+                // localIdentName: '[path]--[name]-[local]--[hash:base64:5]',
               },
             },
           ],
@@ -74,6 +75,8 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       names: ['vendor', 'manifest'],
     }),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(),
     new ExtractTextPlugin('style.css'),
     new HtmlWebpackPlugin({
       template: './index.html',
