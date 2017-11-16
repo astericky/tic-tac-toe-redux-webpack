@@ -29,16 +29,13 @@ const GameBoard = ({ board, isWinner, handleButtonClick }) => {
 GameBoard.propTypes = {
   board: PropTypes.arrayOf(PropTypes.array).isRequired,
   isWinner: PropTypes.bool.isRequired,
+  handleButtonClick: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = ({ board, isWinner }) => ({
   board,
   isWinner,
 })
-
-// const mapDistachToProps = {
-//   handleButtonClick: dispatch => distach(updateGame),
-// }
 
 const mapDistachToProps = dispatch => ({
   handleButtonClick: (xPos, yPos) => dispatch(updateGame(xPos, yPos)),

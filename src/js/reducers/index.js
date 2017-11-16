@@ -16,12 +16,11 @@ function updateBoard(state, position) {
   return {
     board: newBoard,
     lastPlay: currentPlay,
-    isWinner: checkTicTacToe(newBoard),
+    isWinner: !!checkTicTacToe(newBoard),
   }
 }
 
 function board(state = initialState(), action) {
-  console.log('board :: ', action)
   switch (action.type) {
     case GAME_BOARD_BUTTON_CLICKED:
       return updateBoard(state, action.position)
